@@ -5,5 +5,7 @@
 
     "hash": "喵喵喵",
 
-    "signTime": 2592000
+    "signTime": 2592000,
+
+    "tokenTime": 7200
 }
