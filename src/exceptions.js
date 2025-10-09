@@ -48,6 +48,18 @@ class ServerError extends BaseError {
 }
 
 
+/**
+ * 签名异常
+ */
+class SignMissError extends BaseError {
+        constructor(message = '签名已失效或不存在', errorCode = '20000', status = 400) {
+        super(message, errorCode, status)
+    }
+
+}
+
+
+
 module.exports = {
-    BaseError, ServerError, ParamError
+    BaseError, ServerError, ParamError, SignMissError
 }
