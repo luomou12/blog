@@ -7,5 +7,7 @@
 
     "signTime": 2592000,
 
-    "tokenTime": 7200
+    "tokenTime": 7200,
+    
+    "test": "自述文件是否成功上传"
 }
