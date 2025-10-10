@@ -58,8 +58,17 @@ class SignMissError extends BaseError {
 
 }
 
+/**
+ * token异常
+ */
+class TokenMissError extends BaseError {
+        constructor(message = 'token不存在或已失效', errorCode = '30000', status = 400) {
+        super(message, errorCode, status)
+    }
+
+}
 
 
 module.exports = {
-    BaseError, ServerError, ParamError, SignMissError
+    BaseError, ServerError, ParamError, SignMissError, TokenMissError
 }
