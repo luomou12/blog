@@ -10,6 +10,7 @@ const app = new Koa();
 app.use(require('./src/middlewares/error.js')) // 处理错误
 app.use(koaBody()) // 处理请求体 
 app.use(require('./src/middlewares/result.js')) // 处理返回结果
+app.use(require('./src/middlewares/token.js')) // 处理token
 
 
 /* 用户路由 */
