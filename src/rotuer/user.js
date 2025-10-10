@@ -20,8 +20,6 @@ user_router.post('login', (ctx) => {
     const {user_name, password} = ctx.request.body
     const {user, sign} = UserService.login(user_name, password)
 
-    console.log(user, sign)
-
     return {user, sign}
 })
 
