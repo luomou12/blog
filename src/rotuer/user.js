@@ -11,6 +11,7 @@ const user_router = new Router({
 // 注册
 user_router.post('register', (ctx) => {
     const {user_name, password, repeat_password} = ctx.request.body
+    
     return UserService.register(user_name, password, repeat_password)
 })
 
