@@ -1,6 +1,6 @@
-const {ParamError, SignMissError} = require('../exceptions.js')
-const {signTime, tokenTime} = require('../config.json')
-const {touchPath} = require('../utils')
+const { ParamError, SignMissError, TokenMissError } = require('../exceptions.js')
+const { signTime, tokenTime } = require('../config.json')
+const { touchPath } = require('../utils')
 const hash = require('js-sha1')
 const fs = require('fs')
 
@@ -10,6 +10,17 @@ const save_path = ['src','runtime', 'sign']
 touchPath(save_path.join('/'))
 const map_token = new Map() // token缓存
 
+// 先写死在内存中，后期可以考虑redis等缓存
+map_token.set('6c8986f533c70a49fe8ae65472306c4cabc10967', {
+    time: 1760101656685,
+    user: {
+      user_name: 'adaf',
+      password: '00f4fb2f52a43ffd1c349a6e8de8fe2c725c3e23'
+    }
+})
+
+
+// token管理类
 module.exports = class Token{
 
     /**
@@ -60,5 +71,22 @@ module.exports = class Token{
 
         
     }
+
+    /**
+     * 验证token
+     * @param {String} token 用户的token
+     * @returns user 
+    */
+   static verify_token(token){
+        const token_data = map_token.get(token)
+        if (!token_data) throw new TokenMissError('token无效') // token不存在
+        
+        const now = Date.now()
+        if (now > token_data.time) {
+            map_token.delete(token)
+            throw new TokenMissError('token已过期') // token过期
+        } 
+         
+   }
 
 }
