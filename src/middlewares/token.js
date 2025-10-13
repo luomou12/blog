@@ -14,8 +14,11 @@ module.exports = async (ctx, next) => {
 
 
     // 非白名单路径需要验证token
-    if (!reg.test(url)) Token.verify_token(token)
-    else console.log('白名单路径，无需验证token', url);
+    if (!reg.test(url)) {
+        const user = Token.verify_token(token).user
+        ctx.user = user // 将用户信息存入上下文中，后续接口可用
+    }
+    
     
     return await next()
 }
