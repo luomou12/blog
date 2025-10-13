@@ -11,11 +11,12 @@ touchPath(save_path.join('/'))
 const map_token = new Map() // token缓存
 
 // 先写死在内存中，后期可以考虑redis等缓存
-map_token.set('6c8986f533c70a49fe8ae65472306c4cabc10967', {
-    time: 1760101656685,
+map_token.set('3b81b4dfbcf51e623bfa97d3c2b126c6a7f52298', {
+    time: 1860101656685,
     user: {
       user_name: 'adaf',
-      password: '00f4fb2f52a43ffd1c349a6e8de8fe2c725c3e23'
+      password: '00f4fb2f52a43ffd1c349a6e8de8fe2c725c3e23',
+      "id": 1
     }
 })
 
@@ -24,7 +25,7 @@ map_token.set('6c8986f533c70a49fe8ae65472306c4cabc10967', {
 module.exports = class Token{
 
     /**
-     * 通过用户信息创建sign 30天时效性
+     * 通过用户信息创建sign 30天时效  性
      * @param {Object} user 用户信息 
      * @returns sign
      */
@@ -81,12 +82,12 @@ module.exports = class Token{
         const token_data = map_token.get(token)
         if (!token_data) throw new TokenMissError('token无效') // token不存在
         
-        const now = Date.now()
-        if (now > token_data.time) {
+        if (Date.now() > token_data.time) {
             map_token.delete(token)
             throw new TokenMissError('token已过期') // token过期
-        } 
-         
+        }
+
+        return token_data 
    }
 
 }
