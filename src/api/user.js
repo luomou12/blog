@@ -105,8 +105,8 @@ module.exports =  class UserService {
      * @param {String} user_name    用户名 
      * @param {String} password     密码
      */
-    static insert_db_user(user_name, password) {
-        DBUser.push({user_name, password})
+    static insert_db_user(user_name, password, id) {
+        DBUser.push({user_name, password, id: DBUser.length})
         // 将用户信息写入数据库
         fs.writeFileSync(DBUserPath, JSON.stringify(DBUser))
     }
