@@ -68,7 +68,33 @@ class TokenMissError extends BaseError {
 
 }
 
+/**
+ * 文件异常
+ */
+class FileNameReError extends BaseError {
+        constructor(message = '文件名不可重复', errorCode = '40000', status = 400) {
+        super(message, errorCode, status)
+    }
+
+}
+
+
+/**
+ * 路径不存在异常
+ */
+class PathMissError extends BaseError {
+        constructor(message = '该路径不存在或已删除', errorCode = '40001', status = 400) {
+        super(message, errorCode, status)
+    }
+
+}
 
 module.exports = {
-    BaseError, ServerError, ParamError, SignMissError, TokenMissError
+    BaseError, 
+    ServerError, 
+    ParamError, 
+    SignMissError, 
+    TokenMissError,
+    FileNameReError,
+    PathMissError
 }
