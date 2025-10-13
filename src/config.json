@@ -9,5 +9,15 @@
 
     "tokenTime": 7200,
     
-    "test": "自述文件是否成功上传"
+    "dirConfigSavePath": "./src/DB/user_file",
+
+    "qiniu": {
+        "accessKey": "1UmHEFLkqnzG8kqYNX7GX2EIOmnick_RvzAPQSDQ",
+        
+        "secretKey": "o0zaHWkcUGEmLPdMPGw_Q5lqapoCVKKOOWIwYnt0",
+        
+        "bucket": "koa-l",
+        
+        "domain": "http://t3ysx0wub.hn-bkt.clouddn.com"
+    }
 }
