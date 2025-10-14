@@ -73,6 +73,22 @@ module.exports =  class File{
 
 
     /**
+     * 列出文件
+     * @param {Object} user      // 用户信息
+     * @param {String} tag       // 目标路径
+     */
+    static ls(user, tag = '/'){
+        const user_config = JSON.parse(this.get_config_by_user(user))
+        let parent = user_config
+        
+        // 判断tag是否为根目录
+        if (tag !== '/') parent = get_dir_by_path(tag, parent)
+
+        // 返回当前目录下的所有文件夹名
+        return parent.map(d => ({ name: path.join(tag, d.name) }) ) || "该目录下没有文件"
+    }
+
+    /**
      * 获取用户的七牛云配置信息
      * @param {Object} user     // 用户信息
      */
