@@ -9,6 +9,8 @@ const qiniu_router = new Router({
 })
 
 
+
+// 创建文件夹
 qiniu_router.post('mkdir', (ctx) => {
     const user = ctx.user
     const body = ctx.request.body
@@ -23,13 +25,14 @@ qiniu_router.post('mkdir', (ctx) => {
 })
 
 
+// 查看文件夹
+qiniu_router.get('ls', (ctx) => {
+    const user = ctx.user
+    const params = ctx.query
+    params.tag = (params.tag || '/').trim()
 
-
-
-qiniu_router.post('upload', (ctx) => {
-    console.log(888);
-    
-    return '999'
+    return File.ls(user, params.tag)
 })
+
 
 module.exports = qiniu_router
