@@ -26,16 +26,15 @@ const init_user_config = user  => {
  */
 const get_dir_by_path = (dir, config) => {
     const dir_list = dir.split('/').filter(d => d.trim())
-    
     let cur = config
     dir_list.forEach(d=> {
-        const parent_dir_config = config.find(c => c.name === d)
+        const parent_dir_config = cur.find(c => c.name === d)
         if (!parent_dir_config) throw new PathMissError(`路径错误, ${d}文件夹不存在`)
         cur = parent_dir_config.childran
     })
+    console.log(cur);
     
     return cur
-    
 }
 
 
@@ -70,6 +69,7 @@ module.exports =  class File{
             path: path.join(tag, dir_name)
         }
     }
+
 
 
     /**
