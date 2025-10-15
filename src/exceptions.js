@@ -89,6 +89,18 @@ class PathMissError extends BaseError {
 
 }
 
+
+/**
+ * 文件异常
+ */
+class FileUploadError extends BaseError {
+        constructor(message = '文件上传错误', errorCode = '40002', status = 400) {
+        super(message, errorCode, status) 
+    }
+
+}
+
+
 module.exports = {
     BaseError, 
     ServerError, 
@@ -96,5 +108,6 @@ module.exports = {
     SignMissError, 
     TokenMissError,
     FileNameReError,
-    PathMissError
+    PathMissError,
+    FileUploadError
 }
