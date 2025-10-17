@@ -115,4 +115,31 @@ module.exports =  class File{
         const file_path = getConginPathByUser(user)
         fs.writeFileSync(file_path, JSON.stringify(config), {flag: 'w+'})
     }
+
+
+    /**
+     * 
+     * @param {Object} user     // 添加文件信息的用户 
+     * @param {String} tag      // 指定路径 
+     * @param {String} key      // 文件名 
+     */
+    static upload_user_file(user, tag, key) {
+        const user_config = JSON.parse(this.get_config_by_user(user))
+        let parent = user_config
+
+        // 判断tag是否为根目录
+        if (tag !== '/') parent = get_dir_by_path(tag, parent)
+
+        //  判断同级目录之下, 是否存在同名文件
+        const same_level_dir = parent.find(d => d === key)
+        if(same_level_dir) throw new FileNameReError(`${key}文件已存在`)
+
+        // 添加文件信息
+        parent.push(key) 
+        this.save_user_config(user, user_config) 
+        
+        return {
+            path: path.join(tag, key)
+        }
+    }
 }
