@@ -32,7 +32,6 @@ const get_dir_by_path = (dir, config) => {
         if (!parent_dir_config) throw new PathMissError(`路径错误, ${d}文件夹不存在`)
         cur = parent_dir_config.childran
     })
-    console.log(cur);
     
     return cur
 }
@@ -85,7 +84,10 @@ module.exports =  class File{
         if (tag !== '/') parent = get_dir_by_path(tag, parent)
 
         // 返回当前目录下的所有文件夹名
-        return parent.map(d => ({ name: path.join(tag, d.name) }) ) || "该目录下没有文件"
+        return parent.map(d => {
+            if(typeof d === "string") return d
+            return {name: path.join(tag, d.name)}
+        } ) || "该目录下没有文件"
     }
 
     /**
