@@ -32,6 +32,7 @@ class QiniuFile{
         config.regionsProvider = qiniu.httpc.Region.fromRegionId("z2"); // 指定上传区域
         // config.useHttpsDomain = true; // 使用https上传域名
         // config.useCdnDomain = true; // 使用CDN上传域名
+        return config
     }
 
     // 上传对象
