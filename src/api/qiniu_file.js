@@ -41,6 +41,13 @@ class QiniuFile{
     }
 
 
+    // 空间信息对象
+    get bucketManager(){
+        const mac = this.mac
+        const config = this.config
+        return new qiniu.rs.BucketManager(mac, config) 
+    }
+
 
 
     /**
