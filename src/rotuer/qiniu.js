@@ -1,5 +1,6 @@
 const Router = require('koa-router');
 const File = require('../api/file.js');
+const path = require('path')
 const QiniuFile = require('../api/qiniu_file.js')
 const { ParamError, FileUploadError } = require('../exceptions.js');
 
@@ -46,12 +47,11 @@ qiniu_router.post('mkdir', (ctx) => {
 })
 
 
-// 查看文件夹
-qiniu_router.get('ls', (ctx) => {
+qiniu_router.get('ls', async (ctx) => {
     const user = ctx.user
     const params = ctx.query
     params.tag = (params.tag || '/').trim()
-
+    
     return File.ls(user, params.tag)
 })
 
@@ -78,11 +78,12 @@ qiniu_router.post('upload', upload_midd_ware, async (ctx) => {
     // 检测路径是否存在
     const user = ctx.user
     File.ls(user, tag)
-
-    // 上传远程云盘
-    const data = await QiniuFile.upload(file_name, buffer)
     
-    // 同步更新本地文件配置
+    const online_path = [user.user_name, file_name].join('/')
+    // 上传远程云盘
+    const data = await QiniuFile.upload(online_path, buffer)
+    
+    // // 同步更新本地文件配置
     File.upload_user_file(user, tag, file.originalname)
     
     return data
