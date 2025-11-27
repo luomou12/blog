@@ -1,7 +1,7 @@
 const qiniu = require("qiniu")
 const { FileUploadError } = require('../exceptions.js')
+const { get_dir_by_path } = require('../utils.js')
 const { accessKey, secretKey, bucket, domain } = require("../config.json").qiniu
-
 
 class QiniuFile{
     // 七牛云配置
@@ -83,6 +83,52 @@ class QiniuFile{
         // .catch((err) => err) 
 
     } 
+
+
+    /**
+     * 查看用户目录下所有文件'云盘默认全部返回'
+     * @param {String} online_paht  // 在线路径
+     * @param {Object} config       // 用户七牛云配置
+     * @returns {Object} 云盘返回的数据, 二次处理成树状图. 报错返回空数组
+     */
+    static async ls(online_paht, config) {
+        const { bucketManager, bucket } = this.instance
+        const options = {limit:10, prefix: online_paht}
+
+
+        // 获取云盘指定路径所有数据
+        const paths = await bucketManager.listPrefix(bucket, options)
+        .then(({data, resp}) => {
+            if (resp.statusCode === 200) return data.items
+            return resp
+        })
+        .catch((err) => {
+            console.log("failed", err);
+            return []
+        })
+
+
+        // 处理数据
+        const reg = new RegExp('^' + online_paht)
+        paths.forEach(item => {
+            const cur_map = item.key.replace(reg, '').split('/')
+            const file_name = cur_map.pop()
+
+            const parent = get_dir_by_path(cur_map.join('/'), config)
+            console.log(parent);
+            
+            parent.push({
+                path: item.key,
+                file_name,
+                size: item.fsize,
+                mimeType: item.mimeType,
+                putTime: item.putTime
+            })
+            
+        })
+ 
+        return config
+    }
 }
 
 
