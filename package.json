@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon index.js",
     "dev:qiniu:up": "node ./src/qiniu-test/upload.js",
-    "dev:qiniu:get": "node ./src/qiniu-test/get.js"
+    "dev:qiniu:get": "node ./src/qiniu-test/get.js",
+    "dev:qiniu:ls": "node ./src/qiniu-test/look_ls.js"
   },
   "author": "luo",
   "license": "ISC",
