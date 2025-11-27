@@ -1,6 +1,5 @@
 const Router = require('koa-router');
 const File = require('../api/file.js');
-const path = require('path')
 const QiniuFile = require('../api/qiniu_file.js')
 const { ParamError, FileUploadError } = require('../exceptions.js');
 
@@ -47,14 +46,24 @@ qiniu_router.post('mkdir', (ctx) => {
 })
 
 
-qiniu_router.get('ls', async (ctx) => {
+// 查看文件夹
+qiniu_router.get('ls', (ctx) => {
     const user = ctx.user
     const params = ctx.query
     params.tag = (params.tag || '/').trim()
-    
+
     return File.ls(user, params.tag)
 })
 
+
+// 查看文件
+qiniu_router.get('files', async (ctx) => {
+    const user = ctx.user
+    const online_path = user.user_name
+    const config = JSON.parse(File.get_config_by_user(user))
+    
+    return await QiniuFile.ls(online_path, config)
+})
 
 
 // 文件上传
