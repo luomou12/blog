@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-
+const { PathMissError } = require('./exceptions')
 
 
 /**
@@ -29,6 +29,27 @@ const touchPath = targetPath => {
     }
 }
 
+
+
+
+/**
+ * 根据路径获取对应的文件夹对象 
+ * @param {String} dir      // 指定路径
+ * @param {Object} config   // 用户的配置信息
+ */
+const get_dir_by_path = (dir, config) => {
+    const dir_list = dir.split('/').filter(d => d.trim())
+    let cur = config
+    dir_list.forEach(d=> {
+        const parent_dir_config = cur.find(c => c.name === d)
+        if (!parent_dir_config) throw new PathMissError(`路径错误, ${d}文件夹不存在`)
+        cur = parent_dir_config.childran
+    })
+    
+    return cur
+}
+
+
 module.exports = {
-    fillerZero, touchPath
+    fillerZero, touchPath, get_dir_by_path
 }
